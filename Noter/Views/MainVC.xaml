@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="Noter.Views.MainVC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Noter.Views"
+             xmlns:enum="clr-namespace:Noter.Models"
+             mc:Ignorable="d" 
+             d:DesignHeight="350" d:DesignWidth="800" Loaded="UserControl_Loaded">
+    <Grid Background="{StaticResource backBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ComboBox Name="cmbox" Grid.Row="0" Grid.Column="1" Style="{DynamicResource visualStudioComboBox}" Foreground="{StaticResource stringBrush}" VerticalContentAlignment="Center" SelectionChanged="ComboBox_SelectionChanged">
+            <ComboBox.ItemContainerStyle>
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="Background" Value="{StaticResource backLowBrush}"/>
+                    <Setter Property="Foreground" Value="{StaticResource stringBrush}"/>
+                </Style>
+            </ComboBox.ItemContainerStyle>
+            <ComboBoxItem Content="Not Archived"/>
+            <ComboBoxItem Content="Archived"/>
+            <ComboBoxItem Content="All"/>
+        </ComboBox>
+        <ListBox Grid.Row="1" Grid.Column="1" Grid.RowSpan="9" ItemsSource="{Binding Notes}" Style="{StaticResource visualStudioListBox}" SelectedItem="{Binding SelectedNote, Mode=TwoWay}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="16" Height="16">
+                            <Image.Style>
+                                <Style TargetType="{x:Type Image}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=Priority}" Value="{x:Static enum:PriorityEnum.Low}">
+                                            <Setter Property="Source" Value="{StaticResource blueDot}"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=Priority}" Value="{x:Static enum:PriorityEnum.Medium}">
+                                            <Setter Property="Source" Value="{StaticResource greenDot}"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=Priority}" Value="{x:Static enum:PriorityEnum.High}">
+                                            <Setter Property="Source" Value="{StaticResource orangeDot}"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=Priority}" Value="{x:Static enum:PriorityEnum.SuperHigh}">
+                                            <Setter Property="Source" Value="{StaticResource redDot}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                        <TextBlock Margin="10,0,0,0" Text="{Binding Name}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" Style="{StaticResource visualStudioRixTxtBlock}" Text="{Binding SelectedNote.Priority, StringFormat={}Priortiy: {0}}"/>
+        <TextBlock Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Style="{StaticResource visualStudioRixTxtBlock}" Text="{Binding SelectedNote.Added, StringFormat={}Added: {0}}"/>
+        <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Style="{StaticResource visualStudioRixTxtBlock}" Text="{Binding SelectedNote.Edited, StringFormat={}Edited: {0}}"/>
+        <TextBox Grid.Row="3" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="3" Style="{StaticResource visualStudioRixTextBox}" IsReadOnly="True" Text="{Binding SelectedNote.Name, Mode=TwoWay}"/>
+        <TextBox Grid.Row="5" Grid.RowSpan="4" Grid.Column="2" Grid.ColumnSpan="3" Style="{StaticResource visualStudioRixTextBox}" IsReadOnly="True" Text="{Binding SelectedNote.Text, Mode=TwoWay}"/>
+        <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Style="{StaticResource visualStudioBtn}" Click="Button_Add_Click">
+            <Image Source="{StaticResource add}"/>
+        </Button>
+        <Button Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Style="{StaticResource visualStudioBtn}" Click="Button_Edit_Click">
+            <Image Source="{StaticResource edit}"/>
+        </Button>
+        <Button Grid.Row="4" Grid.RowSpan="2" Grid.Column="0" Style="{StaticResource visualStudioBtn}" Click="Button_Remove_Click">
+            <Image Source="{StaticResource remove}"/>
+        </Button>
+        <Button Grid.Row="6" Grid.RowSpan="2" Grid.Column="0" Style="{StaticResource visualStudioBtn}" Click="Button_Archive_Click">
+            <Image>
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=SelectedNote.Archived}" Value="{x:Static enum:ArchivedEnum.Archived}">
+                                <Setter Property="Source" Value="{StaticResource notArchive}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=SelectedNote.Archived}" Value="{x:Static enum:ArchivedEnum.NotArchived}">
+                                <Setter Property="Source" Value="{StaticResource archive}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+        </Button>
+    </Grid>
+</UserControl>

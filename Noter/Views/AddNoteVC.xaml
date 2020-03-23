@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Noter.Views.AddNoteVC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Noter.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="450">
+    <Grid Background="{StaticResource backBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource visualStudioRixTextBox}" Text="{Binding Name, Mode=TwoWay}"/>
+        <TextBox Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource visualStudioRixTextBox}" Text="{Binding Text, Mode=TwoWay}"/>
+        <ComboBox Grid.Row="2" Grid.ColumnSpan="2" ItemsSource="{Binding Source={StaticResource enumValues}}" SelectedItem="{Binding Priority}" Style="{DynamicResource visualStudioComboBox}" Foreground="{StaticResource stringBrush}" VerticalContentAlignment="Center">
+            <ComboBox.ItemContainerStyle>
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="Background" Value="{StaticResource backLowBrush}"/>
+                    <Setter Property="Foreground" Value="{StaticResource stringBrush}"/>
+                </Style>
+            </ComboBox.ItemContainerStyle>
+        </ComboBox>
+        <Button Grid.Row="4" Style="{StaticResource visualStudioBtn}" Click="Button_Ok_Click">
+            <Image Source="{StaticResource ok}"/>
+        </Button>
+        <Button Grid.Row="4" Grid.Column="1" Style="{StaticResource visualStudioBtn}" Click="Button_Cancel_Click">
+            <Image Source="{StaticResource cancel}"/>
+        </Button>
+    </Grid>
+</UserControl>
